@@ -1,0 +1,14 @@
+<div>
+  <h2>Editando Produto: {{ produto }}</h2>
+    <label>
+      Novo Nome do Produto:
+      <input type="text" (input)="name($event)" > 
+    </label>
+
+    <label>
+      Nova Quantidade:
+      <input type="number" (input)="qtd($event)">
+    </label>
+
+    <button (click)="salvarEdicao()">Salvar Edição</button>
+</div>
