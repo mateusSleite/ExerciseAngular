@@ -1,7 +1,5 @@
-// Import necessary modules
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-edit-product',
@@ -9,34 +7,28 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./edit-product.component.css'],
 })
 export class EditProductComponent implements OnInit {
-  produto: string = '';
-  novoNome: string = '';
-  novaQuantidade: number = 0;
+  produto = '';
+  novoNome = '';
+  novaQuantidade = 0;
   productList: any[] = [];
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.produto = params.get('produto') || '';
-      const navigationState = window.history.state;
-      this.productList = navigationState.productList || [];
-
-      const product = this.getProduct(this.produto);
-      if (product) {
-        this.novoNome = product.produto;
-        this.novaQuantidade = product.quantidade;
-      }
+    this.route.params.subscribe(params => {
+      this.produto = params['produto']; 
+      console.log(this.produto);
+      let list = localStorage.getItem('productList');
+      if(list != null)
+        this.productList = JSON.parse(list);
+      console.log(this.productList);
     });
   }
-
+  
   salvarEdicao() {
     this.editarProduto(this.produto, this.novoNome, this.novaQuantidade);
+    this.atualizarLocalStorage();
     this.router.navigate(['/']);
-  }
-
-  getProduct(produto: string): any {
-    return this.productList.find(p => p.produto === produto);
   }
 
   name(event: any) {
@@ -53,5 +45,9 @@ export class EditProductComponent implements OnInit {
       this.productList[index].produto = novoNome;
       this.productList[index].quantidade = novaQuantidade;
     }
+  }
+
+  private atualizarLocalStorage() {
+    localStorage.setItem('productList', JSON.stringify(this.productList));
   }
 }

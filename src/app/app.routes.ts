@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EditProductComponent } from './edit-product/edit-product.component';
+import { EditProductComponent } from './edit-product/EditProductComponent';
 
 export const routes: Routes = [
   { path: 'edit/:produto', component: EditProductComponent }

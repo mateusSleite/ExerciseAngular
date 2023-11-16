@@ -1,17 +1,13 @@
-// Importe Router para usar navegação
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-
 export class AppComponent {
   mostrarComprados = true;
   list = [
@@ -49,9 +45,15 @@ export class AppComponent {
 
   adicionarProduto() {
     this.list.push({ produto: this.produto, quantidade: this.quantidade, comprado: false });
+    this.atualizarLocalStorage();
   }
 
   editarProduto(produto: string) {
-    this.router.navigate(['/edit', produto], { state: { productList: this.list } });
+    this.router.navigate(['/edit', produto]);
   }
+
+  private atualizarLocalStorage() {
+    localStorage.setItem('productList', JSON.stringify(this.list));
+  }
+
 }
